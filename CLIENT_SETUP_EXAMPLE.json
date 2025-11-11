@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "xcode-mcp-remote": {
+      "command": "node",
+      "args": [
+        "/path/to/mcp_http_bridge.js"
+      ],
+      "env": {
+        "MCP_SERVER_URL": "http://192.168.4.208:8000",
+        "MCP_API_KEY": ""
+      }
+    }
+  }
+}
+
+

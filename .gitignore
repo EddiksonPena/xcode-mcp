@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Environment
+.env
+.venv
+env/
+venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+*.log
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Archive
+archive/
+
+# Sensitive files
+*.key
+*.pem
+.env.local
+config.json
+mcp.json
+
+# MCP config (contains API keys)
+# Note: Keep mcp.json.example for reference
+~/.cursor/mcp.json
+
+# Test outputs
+test_outputs/
+*.crash
+*.trace
+*.xcresult
+
+# Build artifacts
+DerivedData/
+*.xcarchive
+*.ipa
+*.dSYM.zip

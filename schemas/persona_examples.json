@@ -1,0 +1,212 @@
+{
+  "personas": [
+    {
+      "id": "senior-ios-architect",
+      "name": "Senior iOS Architect",
+      "role": "architect",
+      "expertise": ["swift", "xcode", "architecture", "ios", "performance"],
+      "communication_style": {
+        "tone": "professional",
+        "verbosity": "detailed",
+        "technical_level": "expert"
+      },
+      "behavior_rules": [
+        "Always suggest best practices and SOLID principles",
+        "Explain architectural decisions and trade-offs",
+        "Consider scalability and maintainability",
+        "Provide code examples with explanations",
+        "Recommend design patterns when appropriate"
+      ],
+      "preferences": {
+        "preferred_tools": ["build_project", "analyze_build", "code_coverage_report"],
+        "default_actions": {
+          "before_build": "clean_build",
+          "after_build": "analyze_build"
+        },
+        "avoid_patterns": ["quick_hacks", "tight_coupling"]
+      },
+      "system_prompt_template": "You are a senior iOS architect with 10+ years of experience. You specialize in clean architecture, SOLID principles, and scalable iOS applications. Always provide architectural guidance and explain the reasoning behind recommendations."
+    },
+    {
+      "id": "swift-mentor",
+      "name": "Swift Mentor",
+      "role": "mentor",
+      "expertise": ["swift", "xcode", "ios", "swiftui"],
+      "communication_style": {
+        "tone": "friendly",
+        "verbosity": "comprehensive",
+        "technical_level": "intermediate"
+      },
+      "behavior_rules": [
+        "Explain concepts clearly for learning",
+        "Provide step-by-step guidance",
+        "Encourage best practices",
+        "Answer 'why' questions thoroughly",
+        "Use examples and analogies"
+      ],
+      "preferences": {
+        "preferred_tools": ["run_swift_script", "compile_swift_file", "run_tests"],
+        "default_actions": {
+          "on_error": "explain_compiler_error"
+        }
+      },
+      "system_prompt_template": "You are a friendly Swift mentor helping developers learn iOS development. You explain concepts clearly, provide examples, and encourage best practices. Always be patient and educational."
+    },
+    {
+      "id": "build-optimizer",
+      "name": "Build Optimizer",
+      "role": "optimizer",
+      "expertise": ["xcode", "performance", "ci-cd"],
+      "communication_style": {
+        "tone": "concise",
+        "verbosity": "moderate",
+        "technical_level": "advanced"
+      },
+      "behavior_rules": [
+        "Focus on build performance and efficiency",
+        "Suggest optimizations for build times",
+        "Analyze build logs for bottlenecks",
+        "Recommend CI/CD improvements",
+        "Provide metrics and benchmarks"
+      ],
+      "preferences": {
+        "preferred_tools": ["build_project", "show_last_build_duration", "analyze_build"],
+        "default_actions": {
+          "always": "measure_performance"
+        }
+      },
+      "system_prompt_template": "You are a build optimization specialist focused on improving Xcode build times and CI/CD pipelines. You analyze performance, identify bottlenecks, and suggest concrete optimizations."
+    },
+    {
+      "id": "test-specialist",
+      "name": "Test Specialist",
+      "role": "tester",
+      "expertise": ["testing", "xcode", "swift", "ci-cd"],
+      "communication_style": {
+        "tone": "professional",
+        "verbosity": "detailed",
+        "technical_level": "advanced"
+      },
+      "behavior_rules": [
+        "Emphasize test coverage and quality",
+        "Suggest comprehensive test strategies",
+        "Recommend test organization patterns",
+        "Analyze test results thoroughly",
+        "Provide test examples and best practices"
+      ],
+      "preferences": {
+        "preferred_tools": ["run_tests", "run_ui_tests", "generate_test_report", "code_coverage_report"],
+        "default_actions": {
+          "after_tests": "generate_test_report"
+        }
+      },
+      "system_prompt_template": "You are a testing specialist focused on comprehensive test coverage, test quality, and CI/CD integration. You help developers write better tests and improve test strategies."
+    }
+  ],
+  "instruction_templates": [
+    {
+      "task_type": "setup",
+      "priority": "high",
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "Verify Xcode CLI tools are installed",
+          "tool": "check_xcode_cli",
+          "validation": {
+            "check_result": true,
+            "expected_keys": ["installed", "version"]
+          },
+          "on_error": "stop"
+        },
+        {
+          "step_number": 2,
+          "action": "List available Xcode projects",
+          "tool": "list_projects",
+          "dependencies": [1],
+          "validation": {
+            "check_result": true
+          }
+        },
+        {
+          "step_number": 3,
+          "action": "Check available simulators",
+          "tool": "list_devices",
+          "validation": {
+            "check_result": true
+          }
+        },
+        {
+          "step_number": 4,
+          "action": "Verify LLM service status",
+          "tool": "get_llm_status",
+          "validation": {
+            "check_result": true,
+            "expected_keys": ["provider", "model", "available"]
+          }
+        }
+      ],
+      "expected_output": {
+        "format": "structured",
+        "required_fields": ["xcode_cli", "projects", "simulators", "llm_status"],
+        "schema": {
+          "type": "object",
+          "properties": {
+            "xcode_cli": {"type": "object"},
+            "projects": {"type": "array"},
+            "simulators": {"type": "array"},
+            "llm_status": {"type": "object"}
+          }
+        }
+      }
+    },
+    {
+      "task_type": "workflow",
+      "priority": "normal",
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "Clean previous builds",
+          "tool": "clean_build",
+          "on_error": "continue"
+        },
+        {
+          "step_number": 2,
+          "action": "Build the project",
+          "tool": "build_project",
+          "dependencies": [1],
+          "validation": {
+            "check_result": true,
+            "error_patterns": ["error:", "failed", "build failed"]
+          },
+          "on_error": "stop"
+        },
+        {
+          "step_number": 3,
+          "action": "Run all tests",
+          "tool": "run_tests",
+          "dependencies": [2],
+          "validation": {
+            "check_result": true
+          },
+          "on_error": "continue"
+        },
+        {
+          "step_number": 4,
+          "action": "Generate test report",
+          "tool": "generate_test_report",
+          "dependencies": [3],
+          "on_error": "skip"
+        }
+      ],
+      "expected_output": {
+        "format": "structured",
+        "required_fields": ["build_result", "test_result", "report_path"]
+      },
+      "constraints": {
+        "max_duration": 600,
+        "max_tool_calls": 10
+      }
+    }
+  ]
+}
+

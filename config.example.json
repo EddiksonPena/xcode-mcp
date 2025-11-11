@@ -1,0 +1,18 @@
+{
+  "llm": {
+    "provider": "ollama",
+    "model": "llama3.2",
+    "ollama": {
+      "base_url": "http://localhost:11434"
+    },
+    "deepseek": {
+      "api_key": "YOUR_DEEPSEEK_API_KEY_HERE",
+      "base_url": "https://api.deepseek.com/v1"
+    },
+    "openai": {
+      "api_key": "YOUR_OPENAI_API_KEY_HERE",
+      "base_url": "https://api.openai.com/v1"
+    }
+  }
+}
+

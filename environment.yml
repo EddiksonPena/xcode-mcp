@@ -1,0 +1,23 @@
+name: xcode-mcp
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - fastapi
+  - uvicorn[standard]
+  - requests
+  - pydantic>=2.0
+  - pyyaml
+  - pip
+  - pip:
+    - ollama
+    - openai>=1.0.0
+    - mcp
+    - pydantic-ai
+    - langgraph
+    - langchain
+    - langchain-core
+    - langchain-openai
+    - langchain-ollama
+

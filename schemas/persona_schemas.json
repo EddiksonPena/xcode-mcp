@@ -1,0 +1,307 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Persona Configuration Schema",
+  "description": "Hyper-specific JSON schema for agent personas and instructions",
+  "type": "object",
+  "properties": {
+    "persona": {
+      "type": "object",
+      "description": "Agent persona configuration",
+      "required": ["id", "name", "role", "expertise", "communication_style", "behavior_rules"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the persona (e.g., 'senior-ios-architect', 'swift-mentor')",
+          "pattern": "^[a-z0-9-]+$",
+          "examples": ["senior-ios-architect", "swift-mentor", "build-optimizer", "test-specialist"]
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable name of the persona",
+          "minLength": 3,
+          "maxLength": 100,
+          "examples": ["Senior iOS Architect", "Swift Mentor", "Build Optimizer"]
+        },
+        "role": {
+          "type": "string",
+          "description": "Primary role of the persona",
+          "enum": [
+            "architect",
+            "developer",
+            "mentor",
+            "optimizer",
+            "debugger",
+            "tester",
+            "devops",
+            "generalist"
+          ],
+          "examples": ["architect", "developer", "mentor"]
+        },
+        "expertise": {
+          "type": "array",
+          "description": "List of expertise areas",
+          "items": {
+            "type": "string",
+            "enum": [
+              "swift",
+              "objective-c",
+              "xcode",
+              "ios",
+              "macos",
+              "watchos",
+              "tvos",
+              "swiftui",
+              "uikit",
+              "architecture",
+              "testing",
+              "ci-cd",
+              "performance",
+              "debugging",
+              "code-signing",
+              "app-store",
+              "simulator",
+              "instruments"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true,
+          "examples": [["swift", "xcode", "architecture"], ["testing", "ci-cd"]]
+        },
+        "communication_style": {
+          "type": "object",
+          "description": "How the persona communicates",
+          "required": ["tone", "verbosity", "technical_level"],
+          "properties": {
+            "tone": {
+              "type": "string",
+              "enum": ["professional", "friendly", "concise", "detailed", "educational"],
+              "description": "Communication tone",
+              "default": "professional"
+            },
+            "verbosity": {
+              "type": "string",
+              "enum": ["minimal", "moderate", "detailed", "comprehensive"],
+              "description": "Level of detail in responses",
+              "default": "moderate"
+            },
+            "technical_level": {
+              "type": "string",
+              "enum": ["beginner", "intermediate", "advanced", "expert"],
+              "description": "Technical depth of explanations",
+              "default": "intermediate"
+            }
+          }
+        },
+        "behavior_rules": {
+          "type": "array",
+          "description": "Specific behavioral rules for the persona",
+          "items": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 500
+          },
+          "minItems": 1,
+          "examples": [
+            "Always suggest best practices and SOLID principles",
+            "Explain the 'why' behind recommendations",
+            "Provide code examples when relevant"
+          ]
+        },
+        "preferences": {
+          "type": "object",
+          "description": "Persona preferences and defaults",
+          "properties": {
+            "preferred_tools": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Preferred tools to use when multiple options exist"
+            },
+            "default_actions": {
+              "type": "object",
+              "description": "Default actions for common scenarios",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "avoid_patterns": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Patterns or practices to avoid"
+            }
+          }
+        },
+        "system_prompt_template": {
+          "type": "string",
+          "description": "Template for system prompt generation",
+          "minLength": 50,
+          "maxLength": 2000
+        }
+      }
+    },
+    "instructions": {
+      "type": "object",
+      "description": "Task-specific instructions",
+      "required": ["task_type", "steps", "expected_output"],
+      "properties": {
+        "task_type": {
+          "type": "string",
+          "enum": [
+            "single_tool",
+            "multi_step",
+            "workflow",
+            "analysis",
+            "debugging",
+            "optimization",
+            "setup",
+            "maintenance"
+          ],
+          "description": "Type of task to execute"
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["low", "normal", "high", "urgent"],
+          "description": "Task priority",
+          "default": "normal"
+        },
+        "steps": {
+          "type": "array",
+          "description": "Ordered list of steps to execute",
+          "items": {
+            "type": "object",
+            "required": ["step_number", "action", "tool"],
+            "properties": {
+              "step_number": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "Sequential step number"
+              },
+              "action": {
+                "type": "string",
+                "description": "What action to perform",
+                "minLength": 5,
+                "maxLength": 200
+              },
+              "tool": {
+                "type": "string",
+                "description": "Tool name to use (from xcode-mcp-tools.json)"
+              },
+              "parameters": {
+                "type": "object",
+                "description": "Tool parameters",
+                "additionalProperties": true
+              },
+              "validation": {
+                "type": "object",
+                "description": "How to validate step success",
+                "properties": {
+                  "check_result": {
+                    "type": "boolean",
+                    "description": "Whether to check result"
+                  },
+                  "expected_keys": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": "Expected keys in result"
+                  },
+                  "error_patterns": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": "Patterns that indicate errors"
+                  }
+                }
+              },
+              "on_error": {
+                "type": "string",
+                "enum": ["stop", "continue", "retry", "skip"],
+                "description": "What to do on error",
+                "default": "stop"
+              },
+              "dependencies": {
+                "type": "array",
+                "items": {"type": "integer"},
+                "description": "Step numbers this step depends on"
+              }
+            }
+          },
+          "minItems": 1
+        },
+        "expected_output": {
+          "type": "object",
+          "description": "Expected output structure",
+          "required": ["format", "required_fields"],
+          "properties": {
+            "format": {
+              "type": "string",
+              "enum": ["json", "text", "structured"],
+              "description": "Output format"
+            },
+            "required_fields": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Required fields in output"
+            },
+            "schema": {
+              "type": "object",
+              "description": "JSON schema for structured output"
+            }
+          }
+        },
+        "context": {
+          "type": "object",
+          "description": "Additional context for the task",
+          "additionalProperties": true
+        },
+        "constraints": {
+          "type": "object",
+          "description": "Constraints and limitations",
+          "properties": {
+            "max_duration": {
+              "type": "integer",
+              "description": "Maximum duration in seconds",
+              "minimum": 1
+            },
+            "max_tool_calls": {
+              "type": "integer",
+              "description": "Maximum number of tool calls",
+              "minimum": 1
+            },
+            "required_tools": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Tools that must be available"
+            }
+          }
+        }
+      }
+    },
+    "token_optimization": {
+      "type": "object",
+      "description": "Token optimization settings",
+      "properties": {
+        "response_compression": {
+          "type": "boolean",
+          "description": "Enable response compression",
+          "default": true
+        },
+        "max_response_length": {
+          "type": "integer",
+          "description": "Maximum response length in characters",
+          "minimum": 100,
+          "maximum": 100000
+        },
+        "schema_caching": {
+          "type": "boolean",
+          "description": "Cache tool schemas",
+          "default": true
+        },
+        "minimal_descriptions": {
+          "type": "boolean",
+          "description": "Use minimal descriptions in schemas",
+          "default": false
+        }
+      }
+    }
+  },
+  "required": ["persona", "instructions"]
+}
+

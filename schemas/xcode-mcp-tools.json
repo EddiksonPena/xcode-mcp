@@ -1,0 +1,986 @@
+{
+  "$schema": "https://pioneur.org/schema/mcp/xcode-tools-v1.json",
+  "version": "1.0.0",
+  "metadata": {
+    "title": "Xcode Model Context Protocol Tool Suite",
+    "description": "Comprehensive suite of Xcode automation tools exposed through a FastAPI MCP server. Supports build, test, simulator, CI/CD, and agentic AI integrations.",
+    "maintainer": "Eddikson Peña",
+    "updated": "2025-11-10"
+  },
+  "tools": [
+    {
+      "name": "create_project",
+      "description": "Create a new Xcode project or Swift package",
+      "parameters": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "directory",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "open_project",
+      "description": "Open a project or workspace in Xcode",
+      "parameters": [
+        {
+          "name": "project_path",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "list_projects",
+      "description": "List all available .xcodeproj or .xcworkspace files"
+    },
+    {
+      "name": "clean_project",
+      "description": "Remove DerivedData and temporary build caches"
+    },
+    {
+      "name": "list_schemes",
+      "description": "List available build schemes"
+    },
+    {
+      "name": "switch_scheme",
+      "description": "Switch active build scheme",
+      "parameters": [
+        {
+          "name": "scheme",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "set_build_configuration",
+      "description": "Switch build configuration (Debug/Release)",
+      "parameters": [
+        {
+          "name": "configuration",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "build_project",
+      "description": "Build a project using xcodebuild",
+      "parameters": [
+        {
+          "name": "project_path",
+          "type": "string"
+        },
+        {
+          "name": "scheme",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "build_workspace",
+      "description": "Build a workspace and scheme",
+      "parameters": [
+        {
+          "name": "workspace_path",
+          "type": "string"
+        },
+        {
+          "name": "scheme",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "clean_build",
+      "description": "Clean build artifacts"
+    },
+    {
+      "name": "archive_project",
+      "description": "Create an .xcarchive",
+      "parameters": [
+        {
+          "name": "scheme",
+          "type": "string"
+        },
+        {
+          "name": "archive_path",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "export_ipa",
+      "description": "Export .ipa from archive",
+      "parameters": [
+        {
+          "name": "archive_path",
+          "type": "string"
+        },
+        {
+          "name": "export_plist",
+          "type": "string"
+        },
+        {
+          "name": "export_path",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "analyze_build",
+      "description": "Run static analysis"
+    },
+    {
+      "name": "increment_build_number",
+      "description": "Increment build number automatically using agvtool",
+      "parameters": [
+        {
+          "name": "project_path",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "increment_version_number",
+      "description": "Increment version number in Info.plist using agvtool",
+      "parameters": [
+        {
+          "name": "project_path",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "set_build_number",
+      "description": "Set specific build number",
+      "parameters": [
+        {
+          "name": "project_path",
+          "type": "string"
+        },
+        {
+          "name": "build_number",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "set_version",
+      "description": "Set specific version number",
+      "parameters": [
+        {
+          "name": "project_path",
+          "type": "string"
+        },
+        {
+          "name": "version",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "analyze_build_time",
+      "description": "Analyze build duration from build logs",
+      "parameters": [
+        {
+          "name": "project_path",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "verify_code_signing",
+      "description": "Verify provisioning profiles and signing certificates"
+    },
+    {
+      "name": "check_xcode_cli",
+      "description": "Verify Xcode command-line tools are installed"
+    },
+    {
+      "name": "run_tests",
+      "description": "Run all tests for a project/scheme",
+      "parameters": [
+        {
+          "name": "project_or_workspace",
+          "type": "string"
+        },
+        {
+          "name": "scheme",
+          "type": "string"
+        },
+        {
+          "name": "destination",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "run_ui_tests",
+      "description": "Run UI tests on simulator",
+      "parameters": [
+        {
+          "name": "scheme",
+          "type": "string"
+        },
+        {
+          "name": "destination",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "run_specific_test",
+      "description": "Run a specific test case",
+      "parameters": [
+        {
+          "name": "test_identifier",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "list_test_targets",
+      "description": "List all testable targets"
+    },
+    {
+      "name": "generate_test_report",
+      "description": "Generate JSON or JUnit test report",
+      "parameters": [
+        {
+          "name": "output_path",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "code_coverage_report",
+      "description": "Generate code coverage report"
+    },
+    {
+      "name": "lint_project",
+      "description": "Run SwiftLint"
+    },
+    {
+      "name": "swift_format",
+      "description": "Auto-format Swift code using SwiftFormat"
+    },
+    {
+      "name": "list_devices",
+      "description": "List all simulators"
+    },
+    {
+      "name": "list_device_types",
+      "description": "List device types"
+    },
+    {
+      "name": "create_simulator",
+      "description": "Create a new simulator",
+      "parameters": [
+        {
+          "name": "device_name",
+          "type": "string"
+        },
+        {
+          "name": "runtime",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "delete_simulator",
+      "description": "Delete a simulator",
+      "parameters": [
+        {
+          "name": "udid",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "boot_simulator",
+      "description": "Boot a simulator",
+      "parameters": [
+        {
+          "name": "device_name",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "shutdown_simulator",
+      "description": "Shut down simulator",
+      "parameters": [
+        {
+          "name": "device_name",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "erase_simulator",
+      "description": "Erase simulator contents",
+      "parameters": [
+        {
+          "name": "device_name",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "install_app",
+      "description": "Install app on simulator",
+      "parameters": [
+        {
+          "name": "app_path",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "uninstall_app",
+      "description": "Uninstall app from simulator",
+      "parameters": [
+        {
+          "name": "bundle_id",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "launch_app",
+      "description": "Launch app on simulator",
+      "parameters": [
+        {
+          "name": "bundle_id",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "terminate_app",
+      "description": "Terminate simulator app",
+      "parameters": [
+        {
+          "name": "bundle_id",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "open_url",
+      "description": "Open URL in simulator Safari",
+      "parameters": [
+        {
+          "name": "url",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "record_video",
+      "description": "Record simulator screen to .mov",
+      "parameters": [
+        {
+          "name": "output_path",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "screenshot",
+      "description": "Capture simulator screenshot",
+      "parameters": [
+        {
+          "name": "output_path",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "list_connected_devices",
+      "description": "List physically connected iOS devices"
+    },
+    {
+      "name": "install_on_device",
+      "description": "Install app to physical device",
+      "parameters": [
+        {
+          "name": "device_id",
+          "type": "string"
+        },
+        {
+          "name": "app_path",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "uninstall_from_device",
+      "description": "Uninstall app from device",
+      "parameters": [
+        {
+          "name": "device_id",
+          "type": "string"
+        },
+        {
+          "name": "bundle_id",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "pair_device",
+      "description": "Pair physical device",
+      "parameters": [
+        {
+          "name": "device_id",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "unpair_device",
+      "description": "Unpair device",
+      "parameters": [
+        {
+          "name": "device_id",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "list_certificates",
+      "description": "List signing certificates"
+    },
+    {
+      "name": "export_provisioning_profiles",
+      "description": "Export provisioning profiles"
+    },
+    {
+      "name": "resign_app",
+      "description": "Re-sign an app with specific certificate using codesign",
+      "parameters": [
+        {
+          "name": "app_path",
+          "type": "string"
+        },
+        {
+          "name": "certificate",
+          "type": "string"
+        },
+        {
+          "name": "provisioning_profile",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "run_swift_package_build",
+      "description": "Build Swift Package Manager project"
+    },
+    {
+      "name": "run_swift_package_test",
+      "description": "Run SwiftPM tests"
+    },
+    {
+      "name": "run_swift_script",
+      "description": "Execute a .swift script",
+      "parameters": [
+        {
+          "name": "file_path",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "compile_swift_file",
+      "description": "Compile a standalone Swift file",
+      "parameters": [
+        {
+          "name": "file_path",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "generate_docs",
+      "description": "Generate documentation via DocC or Jazzy"
+    },
+    {
+      "name": "run_swift_lint",
+      "description": "Run SwiftLint CLI"
+    },
+    {
+      "name": "swift_package_dependencies",
+      "description": "List SPM dependencies"
+    },
+    {
+      "name": "open_xcode",
+      "description": "Launch Xcode app"
+    },
+    {
+      "name": "close_xcode",
+      "description": "Quit Xcode"
+    },
+    {
+      "name": "create_new_file",
+      "description": "Create a new Swift file in Xcode",
+      "parameters": [
+        {
+          "name": "file_name",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "open_recent_project",
+      "description": "Open a recent project"
+    },
+    {
+      "name": "trigger_build_button",
+      "description": "Simulate clicking Xcode's build button"
+    },
+    {
+      "name": "show_debug_area",
+      "description": "Toggle Debug area visibility"
+    },
+    {
+      "name": "open_preferences",
+      "description": "Open Xcode preferences"
+    },
+    {
+      "name": "view_build_logs",
+      "description": "View last build logs"
+    },
+    {
+      "name": "tail_build_log",
+      "description": "Stream live build logs"
+    },
+    {
+      "name": "parse_errors",
+      "description": "Parse compiler errors"
+    },
+    {
+      "name": "export_log",
+      "description": "Export build log",
+      "parameters": [
+        {
+          "name": "output_path",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "show_last_build_duration",
+      "description": "Show last build duration"
+    },
+    {
+      "name": "list_failed_tests",
+      "description": "List failed tests"
+    },
+    {
+      "name": "summarize_build_output",
+      "description": "Summarize build output via LLM"
+    },
+    {
+      "name": "explain_compiler_error",
+      "description": "Explain compiler error via LLM"
+    },
+    {
+      "name": "recommend_fix",
+      "description": "Suggest likely fix via LLM"
+    },
+    {
+      "name": "git_status",
+      "description": "Show Git repository status"
+    },
+    {
+      "name": "git_commit",
+      "description": "Commit changes",
+      "parameters": [
+        {
+          "name": "message",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "git_push",
+      "description": "Push changes to remote"
+    },
+    {
+      "name": "git_pull",
+      "description": "Pull latest changes"
+    },
+    {
+      "name": "trigger_ci_build",
+      "description": "Trigger CI pipeline"
+    },
+    {
+      "name": "ci_build_status",
+      "description": "Check CI build status"
+    },
+    {
+      "name": "post_ci_results",
+      "description": "Post CI results to webhook"
+    },
+    {
+      "name": "generate_release_notes",
+      "description": "Generate release notes from commits"
+    },
+    {
+      "name": "help",
+      "description": "List all available tools"
+    },
+    {
+      "name": "version",
+      "description": "Show MCP + Xcode version"
+    },
+    {
+      "name": "update_mcp",
+      "description": "Update MCP server"
+    },
+    {
+      "name": "cleanup_temp_files",
+      "description": "Remove temporary build/log files"
+    },
+    {
+      "name": "restart_core_services",
+      "description": "Restart Xcode daemons"
+    },
+    {
+      "name": "ping",
+      "description": "Health check for MCP"
+    },
+    {
+      "name": "whoami",
+      "description": "Display MCP host info"
+    },
+    {
+      "name": "suggest_tests_for_code",
+      "description": "Suggest tests for given code",
+      "parameters": [
+        {
+          "name": "code",
+          "type": "string"
+        },
+        {
+          "name": "language",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "analyze_performance_profile",
+      "description": "Summarize Instruments performance logs",
+      "parameters": [
+        {
+          "name": "profile_path",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "explain_build_failure",
+      "description": "Summarize build failure causes",
+      "parameters": [
+        {
+          "name": "build_log",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "recommend_next_action",
+      "description": "Suggest next command or fix",
+      "parameters": [
+        {
+          "name": "context",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "memory_summarize_recent_activity",
+      "description": "Store and recall recent build/test summaries"
+    },
+    {
+      "name": "set_llm_provider",
+      "description": "Switch LLM provider and optionally model",
+      "parameters": [
+        {
+          "name": "provider",
+          "type": "string"
+        },
+        {
+          "name": "model",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "list_llm_models",
+      "description": "List available models for a provider",
+      "parameters": [
+        {
+          "name": "provider",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "get_llm_status",
+      "description": "Get current LLM service status"
+    },
+    {
+      "name": "test_llm_connection",
+      "description": "Test LLM connection with a simple prompt"
+    },
+    {
+      "name": "symbolicate_crash_log",
+      "description": "Symbolicate crash log using atos or symbolicatecrash",
+      "parameters": [
+        {
+          "name": "crash_path",
+          "type": "string"
+        },
+        {
+          "name": "dSYM_path",
+          "type": "string"
+        },
+        {
+          "name": "app_path",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "analyze_crash_log",
+      "description": "Analyze crash log and extract key information",
+      "parameters": [
+        {
+          "name": "crash_path",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "get_crash_reports",
+      "description": "Get crash reports from device or simulator",
+      "parameters": [
+        {
+          "name": "device_id",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "export_crash_log",
+      "description": "Export crash log to specified location",
+      "parameters": [
+        {
+          "name": "crash_path",
+          "type": "string"
+        },
+        {
+          "name": "output_path",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "optimize_images",
+      "description": "Optimize images using sips (macOS built-in tool)",
+      "parameters": [
+        {
+          "name": "asset_path",
+          "type": "string"
+        },
+        {
+          "name": "quality",
+          "type": "integer"
+        },
+        {
+          "name": "output_path",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "generate_app_icons",
+      "description": "Generate app icon set from source image",
+      "parameters": [
+        {
+          "name": "source_image",
+          "type": "string"
+        },
+        {
+          "name": "output_path",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "validate_asset_catalog",
+      "description": "Validate Assets.xcassets structure",
+      "parameters": [
+        {
+          "name": "project_path",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "check_asset_sizes",
+      "description": "Check asset file sizes and warn on large files",
+      "parameters": [
+        {
+          "name": "project_path",
+          "type": "string"
+        },
+        {
+          "name": "max_size_mb",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "name": "manage_color_assets",
+      "description": "Manage color sets in asset catalog",
+      "parameters": [
+        {
+          "name": "action",
+          "type": "string"
+        },
+        {
+          "name": "color_name",
+          "type": "string"
+        },
+        {
+          "name": "hex_color",
+          "type": "string"
+        },
+        {
+          "name": "project_path",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "set_simulator_location",
+      "description": "Set GPS location for simulator",
+      "parameters": [
+        {
+          "name": "device_udid",
+          "type": "string"
+        },
+        {
+          "name": "latitude",
+          "type": "number"
+        },
+        {
+          "name": "longitude",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "name": "get_simulator_logs",
+      "description": "Get device logs from simulator",
+      "parameters": [
+        {
+          "name": "device_udid",
+          "type": "string"
+        },
+        {
+          "name": "lines",
+          "type": "integer"
+        }
+      ]
+    },
+    {
+      "name": "list_simulator_apps",
+      "description": "List installed apps on simulator",
+      "parameters": [
+        {
+          "name": "device_udid",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "simulate_network_conditions",
+      "description": "Simulate network conditions (wifi, 3g, lte, etc.)",
+      "parameters": [
+        {
+          "name": "device_udid",
+          "type": "string"
+        },
+        {
+          "name": "condition",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "clone_simulator",
+      "description": "Clone existing simulator",
+      "parameters": [
+        {
+          "name": "source_udid",
+          "type": "string"
+        },
+        {
+          "name": "new_name",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "extract_strings",
+      "description": "Extract localizable strings from code using genstrings",
+      "parameters": [
+        {
+          "name": "project_path",
+          "type": "string"
+        },
+        {
+          "name": "output_path",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "validate_localizations",
+      "description": "Validate localization files for missing translations",
+      "parameters": [
+        {
+          "name": "project_path",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "check_localization_coverage",
+      "description": "Check translation coverage percentage",
+      "parameters": [
+        {
+          "name": "project_path",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "list_localizations",
+      "description": "List all supported locales in project",
+      "parameters": [
+        {
+          "name": "project_path",
+          "type": "string"
+        }
+      ]
+    }
+  ]
+}
